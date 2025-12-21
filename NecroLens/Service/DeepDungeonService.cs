@@ -33,7 +33,7 @@ public class DeepDungeonService : IDisposable
     public readonly Dictionary<Pomander, string> PomanderNames;
     
     private const string ActorControlSig = "E8 ?? ?? ?? ?? 0F B7 0B 83 E9 64";
-    private delegate void ActorControlSelfDelegate(uint category, uint eventId, uint param1, uint param2, uint param3, uint param4, uint param5, uint param6, ulong targetId, byte param7);
+    private delegate void ActorControlSelfDelegate(uint category, uint eventId, uint param1, uint param2, uint param3, uint param4, uint param5, uint param6, uint param7, uint param8, ulong targetId, byte param9);
     private Hook<ActorControlSelfDelegate>? actorControlSelfHook;
     
     
@@ -138,9 +138,9 @@ public class DeepDungeonService : IDisposable
         FloorTimes[FloorDetails.CurrentFloor] = time;
     }
 
-    private void ActorControlSelf(uint category, uint eventId, uint param1, uint param2, uint param3, uint param4, uint param5, uint param6, ulong targetId, byte param7)
+    private void ActorControlSelf(uint category, uint eventId, uint param1, uint param2, uint param3, uint param4, uint param5, uint param6, uint param7, uint param8, ulong targetId, byte param9)
     {
-        actorControlSelfHook!.Original(category, eventId, param1, param2, param3, param4, param5, param6, targetId, param7);
+        actorControlSelfHook!.Original(category, eventId, param1, param2, param3, param4, param5, param6, param7, param8, targetId, param9);
 
         if (eventId == 100 && !Ready && DeepDungeonContentInfo.ContentInfo.TryGetValue((int)param2, out var info))
             EnterDeepDungeon((int)param2, info);
@@ -186,7 +186,7 @@ public class DeepDungeonService : IDisposable
                     var pomander = (Pomander)args[0];
                     if (pomander > 0)
                     {
-                        var player = ClientState.LocalPlayer!;
+                        var player = ObjectTable.LocalPlayer!;
                         var chest = ObjectTable
                                     .Where(o => o.BaseId == DataIds.GoldChest)
                                     .FirstOrDefault(o => o.Position.Distance2D(player.Position) <= 4.6f);
@@ -218,7 +218,7 @@ public class DeepDungeonService : IDisposable
 
     internal unsafe void TryInteract(ESPObject espObj)
     {
-        var player = ClientState.LocalPlayer!;
+        var player = ObjectTable.LocalPlayer!;
         if ((player.StatusFlags & StatusFlags.InCombat) == 0 && conf.OpenChests && espObj.IsChest())
         {
             var type = espObj.Type;
