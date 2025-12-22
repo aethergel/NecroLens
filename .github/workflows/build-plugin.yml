@@ -72,6 +72,6 @@ jobs:
                   version_number: ${{ env.tag }}
                   path: 'NecroLens/bin/x64/Release/NecroLens/latest.zip'
                   type: ${{ env.IS_TESTING == 'true' && 'testing' || 'latest' }}
-                  dalamud_version: '13'
+                  dalamud_version: '14'
               env:
                   PUBLISHER_KEY: ${{ secrets.PUBLISHER_KEY }}
