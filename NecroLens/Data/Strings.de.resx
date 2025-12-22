@@ -336,7 +336,7 @@ Wenn du dich neben einer Kiste nicht mehr bewegen kannst, deaktiviere diese Opti
     <value>Eulenfalle</value>
   </data>
   <data name="Chest_Accursed_Hoard" xml:space="preserve">
-    <value>Verborgenre Schatz</value>
+    <value>Verborgener Schatz</value>
   </data>
   <data name="Chest_Bronze_Chest" xml:space="preserve">
     <value>Bronzene Schatztruhe</value>
